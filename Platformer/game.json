@@ -22,7 +22,7 @@
     "windowHeight": 600,
     "latestCompilationDirectory": "",
     "maxFPS": 60,
-    "minFPS": 20,
+    "minFPS": 30,
     "verticalSync": false,
     "platformSpecificAssets": {},
     "loadingScreen": {
@@ -502,7 +502,7 @@
               "useMultipleDirections": false,
               "directions": [
                 {
-                  "looping": false,
+                  "looping": true,
                   "timeBetweenFrames": 0.08,
                   "sprites": [
                     {
@@ -566,6 +566,63 @@
               ]
             }
           ]
+        },
+        {
+          "additive": true,
+          "alphaParam": "Mutable",
+          "angleParam": "Mutable",
+          "blueParam": "Random",
+          "destroyWhenNoParticles": false,
+          "emissionEditionSimpleMode": true,
+          "emitterAngleA": 0,
+          "emitterAngleB": 360,
+          "emitterForceMax": 100,
+          "emitterForceMin": 100,
+          "emitterXDirection": 0,
+          "emitterYDirection": 1,
+          "emitterZDirection": 0,
+          "flow": 999,
+          "friction": 2,
+          "gravityEditionSimpleMode": true,
+          "greenParam": "Random",
+          "maxParticleNb": 300,
+          "name": "BulletParticle",
+          "particleAlpha1": 204,
+          "particleAlpha2": 0,
+          "particleAlphaRandomness1": 0,
+          "particleAlphaRandomness2": 0,
+          "particleAngle1": 0,
+          "particleAngle2": 0,
+          "particleAngleRandomness1": 0,
+          "particleAngleRandomness2": 0,
+          "particleBlue1": 255,
+          "particleBlue2": 255,
+          "particleEditionSimpleMode": true,
+          "particleGravityX": 0,
+          "particleGravityY": 0,
+          "particleGravityZ": 0,
+          "particleGreen1": 24,
+          "particleGreen2": 255,
+          "particleLifeTimeMax": 0.2,
+          "particleLifeTimeMin": 0.2,
+          "particleRed1": 0,
+          "particleRed2": 255,
+          "particleSize1": 200,
+          "particleSize2": 10,
+          "particleSizeRandomness1": 0,
+          "particleSizeRandomness2": 0,
+          "redParam": "Enabled",
+          "rendererParam1": 3,
+          "rendererParam2": 1,
+          "rendererType": "Point",
+          "sizeParam": "Mutable",
+          "tags": "",
+          "tank": 10,
+          "textureParticleName": "",
+          "type": "ParticleSystem::ParticleEmitter",
+          "zoneRadius": 3,
+          "variables": [],
+          "behaviors": []
         }
       ],
       "events": [
@@ -581,8 +638,17 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "runtimeScene.setBackgroundColor(100,100,240);\n\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nvar UPKEY = 38;\nvar LEFTKEY = 37;\nvar RIGHTKEY = 39;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    player.simulateControl(\"Jump\");\n}",
+          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    player.simulateControl(\"Jump\");\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    if(!objects[0].hasOwnProperty(\"bulletCooldown\"))\n        objects[0].bulletCooldown = 10\n\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY())\n        //debugger;\n        b.flipX(objects[0]._flippedX)\n        b.lifetime = 0\n        \n        objects[0].bulletCooldown = 10\n    }\n    else\n        objects[0].bulletCooldown -= 1;\n}",
           "parameterObjects": "Player",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 30)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += 1;\n    }\n}\n)",
+          "parameterObjects": "Bullet",
           "useStrict": true,
           "eventsSheetExpanded": true
         }
