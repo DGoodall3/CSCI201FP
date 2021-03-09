@@ -204,6 +204,15 @@
         "name": "Right.png",
         "smoothed": true,
         "userAdded": false
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "D-pad bottom.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "D-pad bottom.png",
+        "smoothed": true,
+        "userAdded": false
       }
     ],
     "resourceFolders": []
@@ -249,8 +258,8 @@
           "locked": false,
           "name": "Platform",
           "persistentUuid": "df227587-c362-46a0-b7ac-295152c71387",
-          "width": 341,
-          "x": 225,
+          "width": 735,
+          "x": 30,
           "y": 385,
           "zOrder": 1,
           "numberProperties": [],
@@ -277,6 +286,38 @@
               "value": "10"
             }
           ]
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "UI Layer",
+          "locked": false,
+          "name": "HealthText",
+          "persistentUuid": "e9f4c215-e762-490a-8792-52aea4ca0d10",
+          "width": 0,
+          "x": 21,
+          "y": 16,
+          "zOrder": 3,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "locked": false,
+          "name": "DamageField",
+          "persistentUuid": "04a508ad-6330-4a02-b71b-5ac85725a007",
+          "width": 0,
+          "x": 634,
+          "y": 311,
+          "zOrder": 4,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
         }
       ],
       "objects": [
@@ -359,7 +400,7 @@
               "useMultipleDirections": false,
               "directions": [
                 {
-                  "looping": false,
+                  "looping": true,
                   "timeBetweenFrames": 0.08,
                   "sprites": [
                     {
@@ -507,7 +548,7 @@
               "useMultipleDirections": false,
               "directions": [
                 {
-                  "looping": true,
+                  "looping": false,
                   "timeBetweenFrames": 0.08,
                   "sprites": [
                     {
@@ -628,6 +669,64 @@
           "zoneRadius": 3,
           "variables": [],
           "behaviors": []
+        },
+        {
+          "bold": false,
+          "italic": false,
+          "name": "HealthText",
+          "smoothed": true,
+          "tags": "",
+          "type": "TextObject::Text",
+          "underlined": false,
+          "variables": [],
+          "behaviors": [],
+          "string": "Text",
+          "font": "",
+          "characterSize": 20,
+          "color": {
+            "b": 0,
+            "g": 0,
+            "r": 255
+          }
+        },
+        {
+          "name": "DamageField",
+          "tags": "",
+          "type": "Sprite",
+          "updateIfNotVisible": false,
+          "variables": [],
+          "behaviors": [],
+          "animations": [
+            {
+              "name": "",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "D-pad bottom.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "events": [
@@ -643,7 +742,7 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    player.simulateControl(\"Jump\");\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    if(!objects[0].hasOwnProperty(\"bulletCooldown\"))\n        objects[0].bulletCooldown = 10\n\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY())\n        //debugger;\n        b.flipX(objects[0]._flippedX)\n        b.lifetime = 0\n        \n        objects[0].bulletCooldown = 10\n    }\n    else\n        objects[0].bulletCooldown -= 1;\n}\n\nruntimeScene.getLayer(\"\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"\").setCameraY(objects[0].getY());",
+          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\n//input\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    player.simulateControl(\"Jump\");\n}\n\n//shooting\n\nif(!objects[0].hasOwnProperty(\"bulletCooldown\"))\n        objects[0].bulletCooldown = 0;\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    debugger;\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY());\n        //debugger;\n        b.flipX(objects[0]._flippedX);\n        b.lifetime = 0;\n        \n        objects[0].bulletCooldown = 10;\n    }\n}\nif(objects[0].bulletCooldown > 0) objects[0].bulletCooldown -= 1;\n\n//camera follow\n\nruntimeScene.getLayer(\"Base Layer\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"Base Layer\").setCameraY(objects[0].getY());\n\n//health UI\n\nvar pHealth = objects[0].getVariables().get(\"Health\").getAsNumber();\n\nvar hstr = \"\";\nfor (var i = 0; i < pHealth; i++)\n    hstr += '♥';\n\nruntimeScene.getObjects(\"HealthText\")[0].setString(hstr);\n\n//take damage (temp)\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(49) && (!objects[0].hasOwnProperty(\"invTime\") || objects[0].invTime <= 0)) \n{\n    player.simulateControl(\"Jump\");\n    objects[0].getVariables().get(\"Health\").setNumber(pHealth - 1);\n    objects[0].invTime = 1000;\n}\n\n//invincibility\n\nif(objects[0].hasOwnProperty(\"invTime\") && objects[0].invTime > 0)\n{\n    objects[0].invTime -= objects[0].getElapsedTime(runtimeScene);\n\n    if(Math.floor(objects[0].invTime) % 2 == 0)\n        if(objects[0].getOpacity() == 50)\n            objects[0].setOpacity(255);\n        else\n            objects[0].setOpacity(50);\n}\nelse\n{\n    objects[0].setOpacity(255);\n}",
           "parameterObjects": "Player",
           "useStrict": true,
           "eventsSheetExpanded": true
@@ -652,7 +751,7 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 30)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += 1;\n    }\n}\n)",
+          "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 500)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += object.getElapsedTime(runtimeScene);\n    }\n}\n)",
           "parameterObjects": "Bullet",
           "useStrict": true,
           "eventsSheetExpanded": false
@@ -679,6 +778,17 @@
               "width": 0
             }
           ],
+          "effects": []
+        },
+        {
+          "ambientLightColorB": 1702453580,
+          "ambientLightColorG": 6009760,
+          "ambientLightColorR": 100663296,
+          "followBaseLayerCamera": false,
+          "isLightingLayer": false,
+          "name": "UI Layer",
+          "visibility": true,
+          "cameras": [],
           "effects": []
         }
       ],
