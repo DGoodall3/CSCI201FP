@@ -271,7 +271,12 @@
           "zOrder": 2,
           "numberProperties": [],
           "stringProperties": [],
-          "initialVariables": []
+          "initialVariables": [
+            {
+              "name": "Health",
+              "value": "10"
+            }
+          ]
         }
       ],
       "objects": [
@@ -650,7 +655,16 @@
           "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 30)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += 1;\n    }\n}\n)",
           "parameterObjects": "Bullet",
           "useStrict": true,
-          "eventsSheetExpanded": true
+          "eventsSheetExpanded": false
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": "runtimeScene.setBackgroundColor(100,100,240);\n",
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
         }
       ],
       "layers": [
