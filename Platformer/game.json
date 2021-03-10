@@ -1413,6 +1413,20 @@
                 ""
               ],
               "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "PlaySound"
+              },
+              "parameters": [
+                "",
+                "enemy_hit.mp3",
+                "",
+                "",
+                ""
+              ],
+              "subInstructions": []
             }
           ],
           "events": []
