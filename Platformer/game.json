@@ -332,12 +332,7 @@
           "zOrder": 2,
           "numberProperties": [],
           "stringProperties": [],
-          "initialVariables": [
-            {
-              "name": "Health",
-              "value": "10"
-            }
-          ]
+          "initialVariables": []
         },
         {
           "angle": 0,
@@ -572,16 +567,25 @@
           "tags": "",
           "type": "Sprite",
           "updateIfNotVisible": false,
-          "variables": [],
+          "variables": [
+            {
+              "name": "Health",
+              "value": "10"
+            },
+            {
+              "name": "TakeDamage",
+              "value": "0"
+            }
+          ],
           "behaviors": [
             {
+              "ignoreDefaultControls": false,
               "name": "PlatformerObject",
               "type": "PlatformBehavior::PlatformerObjectBehavior",
               "acceleration": 1500,
               "canGrabPlatforms": false,
               "deceleration": 1500,
               "gravity": 1000,
-              "ignoreDefaultControls": false,
               "jumpSpeed": 600,
               "jumpSustainTime": 0.2,
               "ladderClimbingSpeed": 150,
@@ -1170,19 +1174,19 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\n//input\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    player.simulateControl(\"Jump\");\n}\n\n//shooting\n\nif(!objects[0].hasOwnProperty(\"bulletCooldown\"))\n        objects[0].bulletCooldown = 0;\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    debugger;\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY());\n        //debugger;\n        b.flipX(objects[0]._flippedX);\n        b.lifetime = 0;\n        \n        objects[0].bulletCooldown = 10;\n    }\n}\nif(objects[0].bulletCooldown > 0) objects[0].bulletCooldown -= 1;\n\n//camera follow\n\nruntimeScene.getLayer(\"Base Layer\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"Base Layer\").setCameraY(objects[0].getY());\n\n//health UI\n\nvar pHealth = objects[0].getVariables().get(\"Health\").getAsNumber();\n\nvar hstr = \"\";\nfor (var i = 0; i < pHealth; i++)\n    hstr += '♥';\n\nruntimeScene.getObjects(\"HealthText\")[0].setString(hstr);\n\n//take damage (temp)\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(49) && (!objects[0].hasOwnProperty(\"invTime\") || objects[0].invTime <= 0)) \n{\n    player.simulateControl(\"Jump\");\n    objects[0].getVariables().get(\"Health\").setNumber(pHealth - 1);\n    objects[0].invTime = 1000;\n}\n\n//invincibility\n\nif(objects[0].hasOwnProperty(\"invTime\") && objects[0].invTime > 0)\n{\n    objects[0].invTime -= objects[0].getElapsedTime(runtimeScene);\n\n    if(Math.floor(objects[0].invTime) % 2 == 0)\n        if(objects[0].getOpacity() == 50)\n            objects[0].setOpacity(255);\n        else\n            objects[0].setOpacity(50);\n}\nelse\n{\n    objects[0].setOpacity(255);\n}",
+          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (runtimeScene.getTimeManager().isFirstFrame())   //initialization\n{\n    objects[0].doubleJump = false;\n    objects[0].bulletCooldown = 0;\n    objects[0].invTime = 0;\n    objects[0].spawnX = objects[0].getX();\n    objects[0].spawnY = objects[0].getY();\n}\n\n//don't let the player fall forever\nconsole.log(objects[0].getY());\nif(objects[0].getY() > 3000)\n{\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(1);\n    objects[0].setX(objects[0].spawnX);\n    objects[0].setY(objects[0].spawnY);\n}\n\n//input\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst SPACEKEY = 32;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(SPACEKEY) || runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    if(!player.isOnFloor()) objects[0].doubleJump = true;\n\n    if(!objects[0].doubleJump)\n        player.simulateControl(\"Jump\");\n}\nif(player.isOnFloor())\n{\n    objects[0].doubleJump = false;\n}\n\n//shooting\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    debugger;\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY());\n        //debugger;\n        b.flipX(objects[0]._flippedX);\n        b.lifetime = 0;\n        var mx = runtimeScene.getGame().getInputManager().getMouseX();\n        var my = runtimeScene.getGame().getInputManager().getMouseY();\n        b.addForce(600 * (b._flippedX ? -1 : 1), 0, 1);\n        \n        objects[0].bulletCooldown = 10;\n    }\n}\nif(objects[0].bulletCooldown > 0) objects[0].bulletCooldown -= 1;\n\n//camera follow\n\nruntimeScene.getLayer(\"Base Layer\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"Base Layer\").setCameraY(objects[0].getY());\n\n//health UI\n\nvar pHealth = objects[0].getVariables().get(\"Health\").getAsNumber();\n\nvar hstr = \"\";\nfor (var i = 0; i < pHealth; i++)\n    hstr += '♥';\n\nruntimeScene.getObjects(\"HealthText\")[0].setString(hstr);\n\n//take damage\n\nif(objects[0].getVariables().get(\"TakeDamage\").getAsNumber() > 0)\n{\n    if(objects[0].invTime <= 0)\n    {\n        objects[0].getVariables().get(\"Health\").setNumber(pHealth - 1);\n        objects[0].invTime = 1000;\n    }\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(0);\n}\n\n//invincibility\n\nif(objects[0].invTime > 0)\n{\n    objects[0].invTime -= objects[0].getElapsedTime(runtimeScene);\n\n    if(Math.sin(objects[0].invTime / 10) < 0)\n        objects[0].setOpacity(50);\n    else\n        objects[0].setOpacity(255);\n}\nelse\n{\n    objects[0].setOpacity(255);\n}",
           "parameterObjects": "Player",
           "useStrict": true,
-          "eventsSheetExpanded": false
+          "eventsSheetExpanded": true
         },
         {
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 500)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += object.getElapsedTime(runtimeScene);\n    }\n}\n)",
+          "inlineCode": "objects.forEach( object =>\n{\n    if(object.lifetime > 500)\n    {\n        object.deleteFromScene(runtimeScene);\n        var bp = runtimeScene.createObject(\"BulletParticle\");\n        bp.setPosition(object.getX() + object.getCenterX(), object.getY() + object.getCenterY());\n    }\n    else\n    {\n        //object.setPosition(object.getX() + (object._flippedX ? -10 : 10), object.getY());\n        object.lifetime += object.getElapsedTime(runtimeScene);\n    }\n}\n)",
           "parameterObjects": "Bullet",
           "useStrict": true,
-          "eventsSheetExpanded": false
+          "eventsSheetExpanded": true
         },
         {
           "disabled": false,
@@ -1495,8 +1499,8 @@
               },
               "parameters": [
                 "Player",
-                "Health",
-                "-",
+                "TakeDamage",
+                "=",
                 "1"
               ],
               "subInstructions": []
@@ -1832,6 +1836,40 @@
                 "",
                 "",
                 ""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "KeyPressed"
+              },
+              "parameters": [
+                "",
+                "Num1"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarObjet"
+              },
+              "parameters": [
+                "Player",
+                "TakeDamage",
+                "=",
+                "1"
               ],
               "subInstructions": []
             }
