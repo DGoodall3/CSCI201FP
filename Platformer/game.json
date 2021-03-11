@@ -265,6 +265,15 @@
         "metadata": "",
         "name": "enemy_hit.mp3",
         "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "coinGold.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "coinGold.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ],
     "resourceFolders": []
@@ -297,7 +306,7 @@
         "gridWidth": 32,
         "snap": true,
         "windowMask": false,
-        "zoomFactor": 0.952
+        "zoomFactor": 0.544
       },
       "objectsGroups": [],
       "variables": [],
@@ -311,8 +320,8 @@
           "name": "Platform",
           "persistentUuid": "df227587-c362-46a0-b7ac-295152c71387",
           "width": 735,
-          "x": 30,
-          "y": 385,
+          "x": -724,
+          "y": 345,
           "zOrder": 1,
           "numberProperties": [],
           "stringProperties": [],
@@ -327,8 +336,8 @@
           "name": "Player",
           "persistentUuid": "4d71de3c-5e74-427f-83af-80bfc1987f5e",
           "width": 0,
-          "x": 123,
-          "y": 228,
+          "x": -528,
+          "y": 165,
           "zOrder": 2,
           "numberProperties": [],
           "stringProperties": [],
@@ -391,8 +400,8 @@
           "name": "Enemy_Fly",
           "persistentUuid": "f3390090-b147-4c4a-8065-7792f8fc87d2",
           "width": 0,
-          "x": 221,
-          "y": 686,
+          "x": 1295,
+          "y": 395,
           "zOrder": 6,
           "numberProperties": [],
           "stringProperties": [],
@@ -503,8 +512,8 @@
           "name": "Platform",
           "persistentUuid": "164573e8-1209-4df8-86bd-622498da77e8",
           "width": 735,
-          "x": 47,
-          "y": 788,
+          "x": 1891,
+          "y": 419,
           "zOrder": 1,
           "numberProperties": [],
           "stringProperties": [],
@@ -519,8 +528,8 @@
           "name": "enemy_turn_right",
           "persistentUuid": "dfd9ba08-34df-4c9f-8621-b0e9b23e2e08",
           "width": 0,
-          "x": 186,
-          "y": 696,
+          "x": 1260,
+          "y": 405,
           "zOrder": 12,
           "numberProperties": [],
           "stringProperties": [],
@@ -535,9 +544,73 @@
           "name": "enemy_turn_left",
           "persistentUuid": "f04d8e90-5b7a-4fc8-a4b6-b1bbdbc513b6",
           "width": 0,
-          "x": 744,
-          "y": 696,
+          "x": 1818,
+          "y": 405,
           "zOrder": 13,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": true,
+          "height": 38,
+          "layer": "",
+          "locked": false,
+          "name": "Platform",
+          "persistentUuid": "a7dfe238-b1dd-4c84-8749-fb4fd967caf4",
+          "width": 735,
+          "x": 1121,
+          "y": 497,
+          "zOrder": 1,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "locked": false,
+          "name": "HealthItem",
+          "persistentUuid": "44af7a3c-6a32-43f5-9998-a8d2b7469b16",
+          "width": 0,
+          "x": -121,
+          "y": 276,
+          "zOrder": 14,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "locked": false,
+          "name": "HealthItem",
+          "persistentUuid": "15727991-cad8-42bf-9b18-20f544ab21f9",
+          "width": 0,
+          "x": 1989,
+          "y": 364,
+          "zOrder": 14,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": true,
+          "height": 38,
+          "layer": "",
+          "locked": false,
+          "name": "Platform",
+          "persistentUuid": "f7336ee4-02be-467b-bb5a-23de8bb55d43",
+          "width": 735,
+          "x": 30,
+          "y": 385,
+          "zOrder": 1,
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
@@ -571,22 +644,26 @@
             {
               "name": "TakeDamage",
               "value": "0"
+            },
+            {
+              "name": "Health",
+              "value": "4"
             }
           ],
           "behaviors": [
             {
+              "acceleration": 2000,
+              "deceleration": 2500,
+              "maxSpeed": 350,
               "name": "PlatformerObject",
               "type": "PlatformBehavior::PlatformerObjectBehavior",
               "ignoreDefaultControls": false,
-              "acceleration": 1500,
               "canGrabPlatforms": false,
-              "deceleration": 1500,
               "gravity": 1000,
               "jumpSpeed": 600,
               "jumpSustainTime": 0.2,
               "ladderClimbingSpeed": 150,
               "maxFallingSpeed": 700,
-              "maxSpeed": 250,
               "roundCoordinates": true,
               "slopeMaxAngle": 60,
               "xGrabTolerance": 10,
@@ -1178,6 +1255,45 @@
             "g": 255,
             "r": 255
           }
+        },
+        {
+          "name": "HealthItem",
+          "tags": "",
+          "type": "Sprite",
+          "updateIfNotVisible": false,
+          "variables": [],
+          "behaviors": [],
+          "animations": [
+            {
+              "name": "",
+              "useMultipleDirections": false,
+              "directions": [
+                {
+                  "looping": false,
+                  "timeBetweenFrames": 0.08,
+                  "sprites": [
+                    {
+                      "hasCustomCollisionMask": false,
+                      "image": "coinGold.png",
+                      "points": [],
+                      "originPoint": {
+                        "name": "origine",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "centerPoint": {
+                        "automatic": true,
+                        "name": "centre",
+                        "x": 0,
+                        "y": 0
+                      },
+                      "customCollisionMask": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "events": [
@@ -1193,10 +1309,10 @@
           "disabled": false,
           "folded": false,
           "type": "BuiltinCommonInstructions::JsCode",
-          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (runtimeScene.getTimeManager().isFirstFrame())   //initialization\n{\n    objects[0].doubleJump = false;\n    objects[0].bulletCooldown = 0;\n    objects[0].invTime = 0;\n    objects[0].spawnX = objects[0].getX();\n    objects[0].spawnY = objects[0].getY();\n}\n\n//don't let the player fall forever\nconsole.log(objects[0].getY());\nif(objects[0].getY() > 3000)\n{\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(1);\n    objects[0].setX(objects[0].spawnX);\n    objects[0].setY(objects[0].spawnY);\n}\n\n//input\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst SPACEKEY = 32;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(SPACEKEY) || runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    if(!player.isOnFloor()) objects[0].doubleJump = true;\n\n    if(!objects[0].doubleJump)\n    {\n        player.setCanJump(true);\n        player.simulateControl(\"Jump\");\n    }\n}\nif(player.isOnFloor())\n{\n    objects[0].doubleJump = false;\n}\n\n//shooting\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    debugger;\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY() + 20);\n        //debugger;\n        b.flipX(objects[0]._flippedX);\n        b.lifetime = 0;\n        var mx = runtimeScene.getGame().getInputManager().getMouseX();\n        var my = runtimeScene.getGame().getInputManager().getMouseY();\n        b.addForce(600 * (b._flippedX ? -1 : 1), 0, 1);\n        \n        objects[0].bulletCooldown = 20;\n    }\n}\nif(objects[0].bulletCooldown > 0) objects[0].bulletCooldown -= 1;\n\n//camera follow\n\nruntimeScene.getLayer(\"Base Layer\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"Base Layer\").setCameraY(objects[0].getY());\n\n//health UI\n\nvar pHealth = objects[0].getVariables().get(\"Health\").getAsNumber();\n\nvar hstr = \"\";\nfor (var i = 0; i < pHealth; i++)\n    hstr += '♥';\n\nruntimeScene.getObjects(\"HealthText\")[0].setString(hstr);\n\n//take damage\n\nif(objects[0].getVariables().get(\"TakeDamage\").getAsNumber() > 0)\n{\n    if(objects[0].invTime <= 0)\n    {\n        objects[0].getVariables().get(\"Health\").setNumber(pHealth - 1);\n        objects[0].invTime = 1000;\n    }\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(0);\n}\n\n//invincibility\n\nif(objects[0].invTime > 0)\n{\n    objects[0].invTime -= objects[0].getElapsedTime(runtimeScene);\n\n    if(Math.sin(objects[0].invTime / 10) < 0)\n        objects[0].setOpacity(50);\n    else\n        objects[0].setOpacity(255);\n}\nelse\n{\n    objects[0].setOpacity(255);\n}",
+          "inlineCode": "\nconst player = objects[0].getBehavior(\"PlatformerObject\");\n\nif (runtimeScene.getTimeManager().isFirstFrame())   //initialization\n{\n    objects[0].doubleJump = false;\n    objects[0].bulletCooldown = 0;\n    objects[0].invTime = 0;\n    objects[0].spawnX = objects[0].getX();\n    objects[0].spawnY = objects[0].getY();\n}\n\n//don't let the player fall forever\nconsole.log(objects[0].getY());\nif(objects[0].getY() > 3000)\n{\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(1);\n    objects[0].setX(objects[0].spawnX);\n    objects[0].setY(objects[0].spawnY);\n}\n\n//input\n\nif (player.isOnFloor())\n{\n    if(player.isMoving() > 0)\n    {\n        objects[0].setAnimation(1);\n    }\n    else\n    {\n        objects[0].setAnimation(0);\n    }\n}\nelse objects[0].setAnimation(2);\n\nconst UPKEY = 38;\nconst SPACEKEY = 32;\nconst LEFTKEY = 37;\nconst RIGHTKEY = 39;\nconst ZKEY = 90;\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(LEFTKEY)) \n{\n  objects[0].flipX(true);\n} \nelse if (runtimeScene.getGame().getInputManager().isKeyPressed(RIGHTKEY)) \n{\n  objects[0].flipX(false);\n}\nif (runtimeScene.getGame().getInputManager().isKeyPressed(SPACEKEY) || runtimeScene.getGame().getInputManager().isKeyPressed(UPKEY)) \n{\n    if(!player.isOnFloor()) objects[0].doubleJump = true;\n\n    if(!objects[0].doubleJump)\n    {\n        player.setCanJump(true);\n        player.simulateControl(\"Jump\");\n    }\n}\nif(player.isOnFloor())\n{\n    objects[0].doubleJump = false;\n}\n\n//shooting\n\nif (runtimeScene.getGame().getInputManager().isKeyPressed(ZKEY)) \n{\n    debugger;\n    if (objects[0].bulletCooldown == 0)\n    {\n        var b = runtimeScene.createObject(\"Bullet\");\n        b.setPosition(objects[0].getX(), objects[0].getY() + 20);\n        //debugger;\n        b.flipX(objects[0]._flippedX);\n        b.lifetime = 0;\n        var mx = runtimeScene.getGame().getInputManager().getMouseX();\n        var my = runtimeScene.getGame().getInputManager().getMouseY();\n        b.addForce(700 * (b._flippedX ? -1 : 1), 0, 1);\n        \n        objects[0].bulletCooldown = 20;\n    }\n}\nif(objects[0].bulletCooldown > 0) objects[0].bulletCooldown -= 1;\n\n//camera follow\n\nruntimeScene.getLayer(\"Base Layer\").setCameraX(objects[0].getX());\nruntimeScene.getLayer(\"Base Layer\").setCameraY(objects[0].getY());\n\n//health UI\n\nvar pHealth = objects[0].getVariables().get(\"Health\").getAsNumber();\n\nvar hstr = \"\";\nfor (var i = 0; i < pHealth; i++)\n    hstr += '♥';\n\nruntimeScene.getObjects(\"HealthText\")[0].setString(hstr);\n\n//take damage\n\nif(objects[0].getVariables().get(\"TakeDamage\").getAsNumber() > 0)\n{\n    if(objects[0].invTime <= 0)\n    {\n        objects[0].getVariables().get(\"Health\").setNumber(pHealth - 1);\n        objects[0].invTime = 1000;\n    }\n    objects[0].getVariables().get(\"TakeDamage\").setNumber(0);\n}\n\n//invincibility\n\nif(objects[0].invTime > 0)\n{\n    objects[0].invTime -= objects[0].getElapsedTime(runtimeScene);\n\n    if(Math.sin(objects[0].invTime / 10) < 0)\n        objects[0].setOpacity(50);\n    else\n        objects[0].setOpacity(255);\n}\nelse\n{\n    objects[0].setOpacity(255);\n}",
           "parameterObjects": "Player",
           "useStrict": true,
-          "eventsSheetExpanded": false
+          "eventsSheetExpanded": true
         },
         {
           "disabled": false,
@@ -1862,19 +1978,6 @@
                 "enemy_turn_left"
               ],
               "subInstructions": []
-            },
-            {
-              "type": {
-                "inverted": false,
-                "value": "ModVarObjet"
-              },
-              "parameters": [
-                "Player",
-                "Health",
-                "=",
-                "20"
-              ],
-              "subInstructions": []
             }
           ],
           "events": []
@@ -1989,6 +2092,114 @@
                 "TakeDamage",
                 "=",
                 "1"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "health item",
+          "comment2": ""
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "DepartScene"
+              },
+              "parameters": [
+                ""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "ChangeColor"
+              },
+              "parameters": [
+                "HealthItem",
+                "\"255;0;0\""
+              ],
+              "subInstructions": []
+            }
+          ],
+          "events": []
+        },
+        {
+          "disabled": false,
+          "folded": false,
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "CollisionNP"
+              },
+              "parameters": [
+                "HealthItem",
+                "Player",
+                "",
+                "",
+                "no"
+              ],
+              "subInstructions": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "inverted": false,
+                "value": "ModVarObjet"
+              },
+              "parameters": [
+                "Player",
+                "Health",
+                "+",
+                "1"
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Create"
+              },
+              "parameters": [
+                "",
+                "BulletParticle",
+                "HealthItem.X()",
+                "HealthItem.Y()",
+                ""
+              ],
+              "subInstructions": []
+            },
+            {
+              "type": {
+                "inverted": false,
+                "value": "Delete"
+              },
+              "parameters": [
+                "HealthItem",
+                ""
               ],
               "subInstructions": []
             }
